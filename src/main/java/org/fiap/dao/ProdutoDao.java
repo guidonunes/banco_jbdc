@@ -1,9 +1,12 @@
 package org.fiap.dao;
+import org.fiap.exception.EntidadeNaoEncontradaException;
 import org.fiap.factory.ConnectionFactory;
 import org.fiap.model.Produto;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoDao {
@@ -19,6 +22,36 @@ public class ProdutoDao {
         stm.setInt(4, produto.getEstoque());
         stm.executeUpdate();
     }
+
+    public Produto pesquisar(long codigo) throws SQLException, EntidadeNaoEncontradaException {
+        PreparedStatement stm = conexao.prepareStatement("SELECT * FROM tb_produto WHERE cd_produto = ?");
+        stm.setLong(1, codigo);
+        ResultSet result = stm.executeQuery();
+        if(!result.next())
+            throw new EntidadeNaoEncontradaException("Produto não encontrado");
+
+        return parseProduto(result);
+    }
+
+    private Produto parseProduto(ResultSet result) throws SQLException {
+        Long id = result.getLong("cd_produto");
+        String nome = result.getString("nm_produto");
+        String descricao = result.getString("ds_produto");
+        double valor = result.getDouble("vl_produto");
+        int estoque = result.getInt("nr_estoque");
+        return new Produto(id, nome, descricao, valor, estoque);
+    }
+
+    public List<Produto> listar() throws SQLException {
+        PreparedStatement stm = conexao.prepareStatement("SELECT * FROM tb_produto");
+        ResultSet result = stm.executeQuery();
+        List<Produto> lista = new ArrayList<>();
+        while (result.next()) {
+            lista.add(parseProduto(result));
+        }
+        return lista;
+    }
+
     public void fecharConexao() throws SQLException {
         conexao.close();
     }
