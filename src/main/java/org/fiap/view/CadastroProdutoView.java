@@ -1,24 +1,17 @@
 package org.fiap.view;
-import org.fiap.factory.ConnectionFactory;
-import java.sql.Connection;
+import org.fiap.dao.ProdutoDao;
+import org.fiap.model.Produto;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 public class CadastroProdutoView {
-
     public static void main(String[] args) {
         try {
-            Connection conexao = ConnectionFactory.getConnection();
-            Statement stm = conexao.createStatement();
-            stm.executeUpdate("INSERT INTO tb_produto (cd_produto, nm_produto, ds_produto, vl_produto, nr_estoque) VALUES (seq_produto.nextval, 'Camiseta Branca', 'Camiseta de Algodão', 10.99, 100)");
-            System.out.println("Produto cadastrado com sucesso!");
-            stm.close();
-            conexao.close();
-
+            ProdutoDao dao = new ProdutoDao();
+            Produto produto = new Produto("Calça Jeans", "Calça Jeans azul", 50.0, 10);
+            dao.cadastrar(produto);
+            dao.fecharConexao();
+            System.out.println("Produto cadastrado!");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-
         }
     }
-
 }
