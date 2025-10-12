@@ -1,4 +1,4 @@
-package br.com.fiap.model;
+package org.fiap.model;
 public class Produto {
     private Long codigo;
     private String nome;
