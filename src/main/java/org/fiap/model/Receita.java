@@ -1,24 +1,21 @@
 package org.fiap.model;
-public class Produto {
+public class Receita {
     private Long codigo;
     private String nome;
     private String descricao;
     private Double valor;
-    private Integer estoque;
-    public Produto(Long codigo, String nome, String descricao, Double valor, Integer estoque) {
+    public Receita(Long codigo, String nome, String descricao, Double valor) {
         this.codigo = codigo;
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
-        this.estoque = estoque;
     }
-    public Produto(String nome, String descricao, Double valor, Integer estoque) {
+    public Receita(String nome, String descricao, Double valor) {
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
-        this.estoque = estoque;
     }
-    public Produto() {
+    public Receita() {
     }
     public Long getCodigo() {
         return codigo;
@@ -43,11 +40,5 @@ public class Produto {
     }
     public void setValor(Double valor) {
         this.valor = valor;
-    }
-    public Integer getEstoque() {
-        return estoque;
-    }
-    public void setEstoque(Integer estoque) {
-        this.estoque = estoque;
     }
 }
